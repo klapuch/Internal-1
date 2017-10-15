@@ -28,13 +28,13 @@ final class Filtered implements Iteration {
 	}
 
 	private function hash(
-		Collection $hash,
+		Collection $previous,
 		Condition\Condition $condition
 	): Hash {
 		return new Hash(
 			array_values(
 				array_filter(
-					$hash->elements(),
+					$previous->elements(),
 					function($value) use ($condition) {
 						return $condition->statement($value);
 					}
