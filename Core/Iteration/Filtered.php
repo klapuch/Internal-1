@@ -20,19 +20,26 @@ final class Filtered implements Iteration {
 	public function product(): Collection {
 		return array_reduce(
 			$this->conditions,
-			function(Collection $hash, Condition\Condition $condition) {
-				return new Hash(
-					array_values(
-						array_filter(
-							$hash->elements(),
-							function($value) use ($condition) {
-								return $condition->statement($value);
-							}
-						)
-					)
-				);
+			function(Collection $previous, Condition\Condition $condition) {
+				return $this->hash($previous, $condition);
 			},
 			$this->hash
+		);
+	}
+
+	private function hash(
+		Collection $hash,
+		Condition\Condition $condition
+	): Hash {
+		return new Hash(
+			array_values(
+				array_filter(
+					$hash->elements(),
+					function($value) use ($condition) {
+						return $condition->statement($value);
+					}
+				)
+			)
 		);
 	}
 }
