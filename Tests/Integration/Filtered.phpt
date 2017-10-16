@@ -26,11 +26,11 @@ final class Filtered extends \Tester\TestCase {
 
 	public function testFilteringHashByAnonymousFunction() {
 		Assert::equal(
-			new Iteration\Hash(['string']),
+			new Iteration\Hash([3 => 'string']),
 			(new Iteration\Filtered(
 				new Iteration\Hash([1, 2, 3, 'string']),
 				new Condition\Callback(
-					function($value) {
+					function($value): bool {
 						return is_string($value);
 					}
 				)
@@ -44,11 +44,32 @@ final class Filtered extends \Tester\TestCase {
 			(new Iteration\Filtered(
 				new Iteration\Hash([1, 2, 3, 'string']),
 				new Condition\Callback(
-					function($value) {
+					function($value): bool {
 						return is_string($value);
 					}
 				),
 				new Condition\Callback('is_numeric')
+			))->product()
+		);
+	}
+
+	public function testReturningHashWithNamedKeys() {
+		Assert::equal(
+			new Iteration\Hash(['third' => 3]),
+			(new Iteration\Filtered(
+				new Iteration\Hash(
+					[
+						'first' => 1,
+						'second' => 2,
+						'third' => 3,
+					]
+				),
+				new Condition\Callback('is_numeric'),
+				new Condition\Callback(
+					function(int $value): bool {
+						return $value === 3;
+					}
+				)
 			))->product()
 		);
 	}

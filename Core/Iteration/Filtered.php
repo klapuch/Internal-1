@@ -22,13 +22,11 @@ final class Filtered implements Iteration {
 			$this->conditions,
 			function(Collection $hash, Condition\Condition $condition) {
 				return new Hash(
-					array_values(
-						array_filter(
-							$hash->elements(),
-							function($value) use ($condition) {
-								return $condition->statement($value);
-							}
-						)
+					array_filter(
+						$hash->elements(),
+						function($value) use ($condition): bool {
+							return $condition->statement($value);
+						}
 					)
 				);
 			},
