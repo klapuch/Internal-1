@@ -66,12 +66,12 @@ final class Filtered extends \Tester\TestCase {
 				))->product();
 			},
 			\UnexpectedValueException::class,
-			'Callback does not satisfy functionality requirements'
+			'Callback must have single argument and boolean return type'
 		);
 	}
 
 	public function testThrowingCallbackWithInvalidReturnType() {
-		Assert::exception(
+		Assert::error(
 			function() {
 				(new Iteration\Filtered(
 					new Iteration\Hash([1, 2, 3, 'string']),
@@ -83,7 +83,7 @@ final class Filtered extends \Tester\TestCase {
 				))->product();
 			},
 			\UnexpectedValueException::class,
-			'Callback does not satisfy functionality requirements'
+			'Callback must have single argument and boolean return type'
 		);
 	}
 }

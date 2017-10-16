@@ -15,7 +15,7 @@ final class Callback implements Condition {
 			return call_user_func($this->callback, $input);
 		} catch (\Throwable $exception) {
 			throw new \UnexpectedValueException(
-				'Callback does not satisfy functionality requirements',
+				'Callback must have single argument and boolean return type',
 				0,
 				$exception->getPrevious()
 			);
