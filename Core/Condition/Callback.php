@@ -10,15 +10,7 @@ final class Callback implements Condition {
 		$this->callback = $callback;
 	}
 
-	public function statement($input): bool {
-		try {
-			return call_user_func($this->callback, $input);
-		} catch (\Throwable $exception) {
-			throw new \UnexpectedValueException(
-				'Callback must have single argument and boolean return type',
-				0,
-				$exception->getPrevious()
-			);
-		}
+	public function statement(...$input): bool {
+		return call_user_func_array($this->callback, $input);
 	}
 }
