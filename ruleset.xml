@@ -38,10 +38,12 @@
 
 	<rule ref="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint">
         <exclude-pattern>Tests/Integration</exclude-pattern>
+        <exclude-pattern>Tests/Unit</exclude-pattern>
 	</rule>
 
 	<rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
         <exclude-pattern>Tests/Integration</exclude-pattern>
+        <exclude-pattern>Tests/Unit</exclude-pattern>
 	</rule>
 
 	<rule ref="SlevomatCodingStandard.TypeHints.TypeHintDeclaration">

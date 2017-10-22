@@ -11,6 +11,6 @@ final class Callback implements Condition {
 	}
 
 	public function statement(...$input): bool {
-		return call_user_func_array($this->callback, $input);
+		return (bool) call_user_func_array($this->callback, $input);
 	}
 }

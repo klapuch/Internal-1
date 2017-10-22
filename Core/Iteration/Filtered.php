@@ -9,34 +9,28 @@ final class Filtered implements Iteration {
 	public const VALUES = 0, BOTH = 1, KEYS = 2;
 	private const SELECTIONS = [self::VALUES, self::BOTH, self::KEYS];
 
-	private $flag;
 	private $hash;
-	private $conditions;
+	private $condition;
+	private $flag;
 
 	public function __construct(
-		int $flag,
 		Collection $hash,
-		Condition\Condition ...$conditions
+		Condition\Condition $condition,
+		int $flag = self::VALUES
 	) {
-		$this->flag = $flag;
 		$this->hash = $hash;
-		$this->conditions = $conditions;
+		$this->condition = $condition;
+		$this->flag = $flag;
 	}
 
 	public function product(): Collection {
-		return array_reduce(
-			$this->conditions,
-			function(Collection $hash, Condition\Condition $condition) {
-				$selection = $this->selection($this->flag);
-				return new Hash(
-					array_filter(
-						$hash->elements(),
-						$this->filter($condition, $selection),
-						$selection
-					)
-				);
-			},
-			$this->hash
+		$selection = $this->selection($this->flag);
+		return new Hash(
+			array_filter(
+				$this->hash->elements(),
+				$this->filter($this->condition, $selection),
+				$selection
+			)
 		);
 	}
 
