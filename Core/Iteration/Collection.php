@@ -3,5 +3,5 @@ declare(strict_types = 1);
 namespace Dasuos\Internal\Iteration;
 
 interface Collection {
-	public function elements(): array;
+	public function product(): array;
 }

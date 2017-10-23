@@ -10,7 +10,7 @@ final class Hash implements Collection {
 		$this->elements = $elements;
 	}
 
-	public function elements(): array {
+	public function product(): array {
 		return $this->elements;
 	}
 }

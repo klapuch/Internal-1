@@ -4,33 +4,31 @@ namespace Dasuos\Internal\Iteration;
 
 use Dasuos\Internal\Condition;
 
-final class Filtered implements Iteration {
+final class Filtered implements Collection {
 
 	public const VALUES = 0, BOTH = 1, KEYS = 2;
 	private const SELECTIONS = [self::VALUES, self::BOTH, self::KEYS];
 
-	private $hash;
+	private $collection;
 	private $condition;
 	private $flag;
 
 	public function __construct(
-		Collection $hash,
+		Collection $collection,
 		Condition\Condition $condition,
 		int $flag = self::VALUES
 	) {
-		$this->hash = $hash;
+		$this->collection = $collection;
 		$this->condition = $condition;
 		$this->flag = $flag;
 	}
 
-	public function product(): Collection {
+	public function product(): array {
 		$selection = $this->selection($this->flag);
-		return new Hash(
-			array_filter(
-				$this->hash->elements(),
-				$this->filter($this->condition, $selection),
-				$selection
-			)
+		return array_filter(
+			$this->collection->product(),
+			$this->filter($this->condition, $selection),
+			$selection
 		);
 	}
 

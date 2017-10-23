@@ -15,8 +15,8 @@ require __DIR__ . '/../bootstrap.php';
 final class Filtered extends \Tester\TestCase {
 
 	public function testFilteringValuesByNamedFunction() {
-		Assert::equal(
-			new Iteration\Hash([1, 2, 3]),
+		Assert::same(
+			[1, 2, 3],
 			(new Iteration\Filtered(
 				new Iteration\Hash([1, 2, 3, 'string']),
 				new Condition\Callback('is_numeric')
@@ -25,8 +25,8 @@ final class Filtered extends \Tester\TestCase {
 	}
 
 	public function testFilteringKeysByNamedFunction() {
-		Assert::equal(
-			new Iteration\Hash(['1' => 'first', '2' => 'second']),
+		Assert::same(
+			['1' => 'first', '2' => 'second'],
 			(new Iteration\Filtered(
 				new Iteration\Hash(
 					[
@@ -42,8 +42,8 @@ final class Filtered extends \Tester\TestCase {
 	}
 
 	public function testFilteringValuesByAnonymousFunction() {
-		Assert::equal(
-			new Iteration\Hash([3 => 'string']),
+		Assert::same(
+			[3 => 'string'],
 			(new Iteration\Filtered(
 				new Iteration\Hash([1, 2, 3, 'string']),
 				new Condition\Callback(
@@ -56,8 +56,8 @@ final class Filtered extends \Tester\TestCase {
 	}
 
 	public function testFilteringKeysByAnonymousFunction() {
-		Assert::equal(
-			new Iteration\Hash(['1' => 'first', '2' => 'second']),
+		Assert::same(
+			['1' => 'first', '2' => 'second'],
 			(new Iteration\Filtered(
 				new Iteration\Hash(
 					[
@@ -77,8 +77,8 @@ final class Filtered extends \Tester\TestCase {
 	}
 
 	public function testFilteringBothByAnonymousFunction() {
-		Assert::equal(
-			new Iteration\Hash(['1' => 1, '2' => 2]),
+		Assert::same(
+			['1' => 1, '2' => 2],
 			(new Iteration\Filtered(
 				new Iteration\Hash(
 					[
@@ -98,8 +98,8 @@ final class Filtered extends \Tester\TestCase {
 	}
 
 	public function testFilteringValuesByCombinedCallbacks() {
-		Assert::equal(
-			new Iteration\Hash([]),
+		Assert::same(
+			[],
 			(new Iteration\Filtered(
 				new Iteration\Hash([1, 2, 3, 'string']),
 				new Condition\All(
@@ -115,8 +115,8 @@ final class Filtered extends \Tester\TestCase {
 	}
 
 	public function testFilteringKeysByOneOfCallbacks() {
-		Assert::equal(
-			new Iteration\Hash(['1' => 1, '2' => 2, 'third' => '3']),
+		Assert::same(
+			['1' => 1, '2' => 2, 'third' => '3'],
 			(new Iteration\Filtered(
 				new Iteration\Hash(['1' => 1, '2' => 2, 'third' => '3']),
 				new Condition\OneOf(
@@ -129,8 +129,8 @@ final class Filtered extends \Tester\TestCase {
 	}
 
 	public function testFilteringValuesWithNamedKeysByCombinedCallbacks() {
-		Assert::equal(
-			new Iteration\Hash(['third' => 3]),
+		Assert::same(
+			['third' => 3],
 			(new Iteration\Filtered(
 				new Iteration\Hash(
 					[
@@ -168,8 +168,8 @@ final class Filtered extends \Tester\TestCase {
 	}
 
 	public function testFilteringValuesByCallbackWithNoBooleanReturnType() {
-		Assert::equal(
-			new Iteration\Hash(['foo@bar.cz']),
+		Assert::same(
+			['foo@bar.cz'],
 			(new Iteration\Filtered(
 				new Iteration\Hash(['foo@bar.cz', 'foo']),
 				new Condition\Callback(
