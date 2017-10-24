@@ -23,13 +23,19 @@ final class Combined implements Condition {
 	}
 
 	private function conjunction(array $input): callable {
-		return function(bool $statement, Condition $condition) use ($input) {
+		return function(
+			bool $statement,
+			Condition $condition
+		) use ($input): bool {
 			return $statement && $condition->statement(...$input);
 		};
 	}
 
 	private function disjunction(array $input): callable {
-		return function(bool $statement, Condition $condition) use ($input) {
+		return function(
+			bool $statement,
+			Condition $condition
+		) use ($input): bool {
 			return $statement || $condition->statement(...$input);
 		};
 	}
