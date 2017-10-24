@@ -14,22 +14,19 @@ require __DIR__ . '/../bootstrap.php';
 final class Callback extends \Tester\TestCase {
 
 	public function testReturningTrueStatementWithOneArgument() {
-		Assert::same(
-			true,
+		Assert::true(
 			(new Condition\Callback('is_int'))->statement(5)
 		);
 	}
 
 	public function testReturningFalseStatementWithOneArgument() {
-		Assert::same(
-			false,
+		Assert::false(
 			(new Condition\Callback('is_int'))->statement('foo')
 		);
 	}
 
 	public function testReturningStatementWithMoreArguments() {
-		Assert::same(
-			true,
+		Assert::true(
 			(new Condition\Callback(
 				function($value, $key): bool {
 					return is_string($value) && is_int($key);

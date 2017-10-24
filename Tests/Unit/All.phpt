@@ -14,8 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 final class All extends \Tester\TestCase {
 
 	public function testReturningTrueStatementWithTwoValidConditions() {
-		Assert::same(
-			true,
+		Assert::true(
 			(new Condition\All(
 				new Condition\Callback('is_numeric'),
 				new Condition\Callback(
@@ -28,8 +27,7 @@ final class All extends \Tester\TestCase {
 	}
 
 	public function testReturningFalseStatementWithValidAndInvalidCondition() {
-		Assert::same(
-			false,
+		Assert::false(
 			(new Condition\All(
 				new Condition\Callback('is_numeric'),
 				new Condition\Callback(
@@ -42,8 +40,7 @@ final class All extends \Tester\TestCase {
 	}
 
 	public function testReturningFalseStatementWithTwoInvalidConditions() {
-		Assert::same(
-			false,
+		Assert::false(
 			(new Condition\All(
 				new Condition\Callback('is_int'),
 				new Condition\Callback(
@@ -56,24 +53,21 @@ final class All extends \Tester\TestCase {
 	}
 
 	public function testReturningTrueStatementWithValidSingleCondition() {
-		Assert::same(
-			true,
+		Assert::true(
 			(new Condition\All(new Condition\Callback('is_int')))
 				->statement(10)
 		);
 	}
 
 	public function testReturningFalseStatementWithInvalidSingleCondition() {
-		Assert::same(
-			false,
+		Assert::false(
 			(new Condition\All(new Condition\Callback('is_int')))
 				->statement('foo')
 		);
 	}
 
 	public function testReturningTrueStatementWithManyValidConditions() {
-		Assert::same(
-			true,
+		Assert::true(
 			(new Condition\All(
 				new Condition\Callback(
 					function($value): bool {
@@ -95,8 +89,7 @@ final class All extends \Tester\TestCase {
 	}
 
 	public function testReturningTrueStatementWithConditionsWithoutBooleanReturn() {
-		Assert::same(
-			true,
+		Assert::true(
 			(new Condition\All(
 				new Condition\Callback(
 					function($value) {
