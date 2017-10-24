@@ -14,8 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 final class OneOf extends \Tester\TestCase {
 
 	public function testReturningTrueStatementWithOneOfValidConditions() {
-		Assert::same(
-			true,
+		Assert::true(
 			(new Condition\OneOf(
 				new Condition\Callback('is_int'),
 				new Condition\Callback('is_numeric')
@@ -24,8 +23,7 @@ final class OneOf extends \Tester\TestCase {
 	}
 
 	public function testReturningFalseStatementWithNoValidConditions() {
-		Assert::same(
-			false,
+		Assert::false(
 			(new Condition\OneOf(
 				new Condition\Callback('is_int'),
 				new Condition\Callback('is_int')
@@ -34,8 +32,7 @@ final class OneOf extends \Tester\TestCase {
 	}
 
 	public function testReturningTrueStatementWithSingleValidCondition() {
-		Assert::same(
-			true,
+		Assert::true(
 			(new Condition\OneOf(
 				new Condition\Callback('is_int')
 			))->statement(12)
@@ -43,8 +40,7 @@ final class OneOf extends \Tester\TestCase {
 	}
 
 	public function testReturningFalseStatementWithSingleInvalidCondition() {
-		Assert::same(
-			false,
+		Assert::false(
 			(new Condition\OneOf(
 				new Condition\Callback('is_int')
 			))->statement('foo')
@@ -52,8 +48,7 @@ final class OneOf extends \Tester\TestCase {
 	}
 
 	public function testReturningTrueStatementWithBothValidConditions() {
-		Assert::same(
-			true,
+		Assert::true(
 			(new Condition\OneOf(
 				new Condition\Callback('is_numeric'),
 				new Condition\Callback(
@@ -66,8 +61,7 @@ final class OneOf extends \Tester\TestCase {
 	}
 
 	public function testReturningTrueStatementWithOneOfManyConditions() {
-		Assert::same(
-			true,
+		Assert::true(
 			(new Condition\OneOf(
 				new Condition\Callback('is_string'),
 				new Condition\Callback(

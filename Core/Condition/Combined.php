@@ -12,6 +12,11 @@ final class Combined implements Condition {
 		$this->callbacks = $callbacks;
 	}
 
+	/**
+	 * @internal
+	 * @param mixed ...$input
+	 * @return bool
+	 */
 	public function statement(...$input): bool {
 		return (bool) array_reduce(
 			$this->callbacks,
