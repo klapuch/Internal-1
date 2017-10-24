@@ -4,7 +4,7 @@ declare(strict_types = 1);
  * @testCase
  * @phpVersion > 7.1
  */
-namespace Dasuos\Internal\Integration;
+namespace Dasuos\Internal\Unit;
 
 use Dasuos\Internal\Condition;
 use Tester\Assert;

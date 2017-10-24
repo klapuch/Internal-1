@@ -35,7 +35,7 @@ final class Filtered implements Collection {
 	private function selection(int $flag): int {
 		if (!in_array($flag, self::SELECTIONS, true))
 			throw new \UnexpectedValueException(
-				'Filter selection is not valid'
+				'Filter selection flag is not valid'
 			);
 		return $flag;
 	}

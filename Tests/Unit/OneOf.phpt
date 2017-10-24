@@ -4,7 +4,7 @@ declare(strict_types = 1);
  * @testCase
  * @phpVersion > 7.1
  */
-namespace Dasuos\Internal\Integration;
+namespace Dasuos\Internal\Unit;
 
 use Dasuos\Internal\Condition;
 use Tester\Assert;
@@ -69,7 +69,7 @@ final class OneOf extends \Tester\TestCase {
 		Assert::same(
 			true,
 			(new Condition\OneOf(
-				new Condition\Callback('is_numeric'),
+				new Condition\Callback('is_string'),
 				new Condition\Callback(
 					function($value): bool {
 						return $value > 10;

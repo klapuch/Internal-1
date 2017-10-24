@@ -152,7 +152,7 @@ final class Filtered extends \Tester\TestCase {
 	}
 
 	public function testThrowingCallbackWithInvalidArgumentCount() {
-		Assert::error(
+		Assert::exception(
 			function() {
 				(new Iteration\Filtered(
 					new Iteration\Hash([1, 2, 3, 'string']),
@@ -178,6 +178,24 @@ final class Filtered extends \Tester\TestCase {
 					}
 				)
 			))->product()
+		);
+	}
+
+	public function testThrowingInvalidSelectionFlag() {
+		Assert::exception(
+			function() {
+				(new Iteration\Filtered(
+					new Iteration\Hash([1, 2, 3, 'string']),
+					new Condition\Callback(
+						function($value): bool {
+							return is_string($value);
+						}
+					),
+					5
+				))->product();
+			},
+			\UnexpectedValueException::class,
+			'Filter selection flag is not valid'
 		);
 	}
 }
