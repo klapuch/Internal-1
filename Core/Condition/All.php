@@ -11,12 +11,7 @@ final class All implements Condition {
 	}
 
 	public function statement(...$input): bool {
-		return array_reduce(
-			$this->callbacks,
-			function(bool $statement, Condition $condition) use ($input) {
-				return $statement && $condition->statement(...$input);
-			},
-			true
-		);
+		return (new Combined(true, ...$this->callbacks))
+			->statement(...$input);
 	}
 }

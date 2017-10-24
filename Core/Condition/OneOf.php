@@ -11,12 +11,7 @@ final class OneOf implements Condition {
 	}
 
 	public function statement(...$input): bool {
-		return array_reduce(
-			$this->callbacks,
-			function(bool $statement, Condition $condition) use ($input) {
-				return $statement || $condition->statement(...$input);
-			},
-			false
-		);
+		return (new Combined(false, ...$this->callbacks))
+			->statement(...$input);
 	}
 }
