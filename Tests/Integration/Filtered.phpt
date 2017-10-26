@@ -14,90 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 final class Filtered extends \Tester\TestCase {
 
-	public function testFilteringValuesByNamedFunction() {
-		Assert::same(
-			[1, 2, 3],
-			(new Iteration\Filtered(
-				new Iteration\Hash([1, 2, 3, 'string']),
-				new Condition\Callback('is_numeric')
-			))->product()
-		);
-	}
-
-	public function testFilteringKeysByNamedFunction() {
-		Assert::same(
-			['1' => 'first', '2' => 'second'],
-			(new Iteration\Filtered(
-				new Iteration\Hash(
-					[
-						'1' => 'first',
-						'2' => 'second',
-						'string' => 'third',
-					]
-				),
-				new Condition\Callback('is_numeric'),
-				Iteration\Filtered::KEYS
-			))->product()
-		);
-	}
-
-	public function testFilteringValuesByAnonymousFunction() {
-		Assert::same(
-			[3 => 'string'],
-			(new Iteration\Filtered(
-				new Iteration\Hash([1, 2, 3, 'string']),
-				new Condition\Callback(
-					function($value): bool {
-						return is_string($value);
-					}
-				)
-			))->product()
-		);
-	}
-
-	public function testFilteringKeysByAnonymousFunction() {
-		Assert::same(
-			['1' => 'first', '2' => 'second'],
-			(new Iteration\Filtered(
-				new Iteration\Hash(
-					[
-						'1' => 'first',
-						'2' => 'second',
-						'string' => 'third',
-					]
-				),
-				new Condition\Callback(
-					function($key): bool {
-						return is_numeric($key);
-					}
-				),
-				Iteration\Filtered::KEYS
-			))->product()
-		);
-	}
-
-	public function testFilteringBothByAnonymousFunction() {
-		Assert::same(
-			['1' => 1, '2' => 2],
-			(new Iteration\Filtered(
-				new Iteration\Hash(
-					[
-						'1' => 1,
-						'2' => 2,
-						'third' => 3,
-					]
-				),
-				new Condition\Callback(
-					function($value, $key): bool {
-						return is_numeric($key) && is_int($value);
-					}
-				),
-				Iteration\Filtered::BOTH
-			))->product()
-		);
-	}
-
-	public function testFilteringValuesByCombinedCallbacks() {
+	public function testFilteringValuesByAllCallbacks() {
 		Assert::same(
 			[],
 			(new Iteration\Filtered(
@@ -110,6 +27,37 @@ final class Filtered extends \Tester\TestCase {
 					),
 					new Condition\Callback('is_numeric')
 				)
+			))->product()
+		);
+	}
+
+	public function testFilteringValuesByOneOfCallbacks() {
+		Assert::same(
+			[1, 2, 3, 'string'],
+			(new Iteration\Filtered(
+				new Iteration\Hash([1, 2, 3, 'string']),
+				new Condition\OneOf(
+					new Condition\Callback(
+						function($value): bool {
+							return is_string($value);
+						}
+					),
+					new Condition\Callback('is_int')
+				)
+			))->product()
+		);
+	}
+
+	public function testFilteringKeysByAllCallbacks() {
+		Assert::same(
+			[],
+			(new Iteration\Filtered(
+				new Iteration\Hash(['1' => 1, '2' => 2, 'third' => '3']),
+				new Condition\All(
+					new Condition\Callback('is_string'),
+					new Condition\Callback('is_numeric')
+				),
+				Iteration\Filtered::KEYS
 			))->product()
 		);
 	}
@@ -128,74 +76,63 @@ final class Filtered extends \Tester\TestCase {
 		);
 	}
 
-	public function testFilteringValuesWithNamedKeysByCombinedCallbacks() {
+	public function testFilteringBothWithByAllCallbacks() {
 		Assert::same(
-			['third' => 3],
+			[],
 			(new Iteration\Filtered(
 				new Iteration\Hash(
 					[
-						'first' => 1,
-						'second' => 2,
-						'third' => 3,
+						'first' => '1',
+						'second' => '2',
+						'third' => '3',
 					]
 				),
 				new Condition\All(
-					new Condition\Callback('is_integer'),
 					new Condition\Callback(
-						function(int $value): bool {
-							return $value === 3;
-						}
-					)
-				)
-			))->product()
-		);
-	}
-
-	public function testThrowingCallbackWithInvalidArgumentCount() {
-		Assert::exception(
-			function() {
-				(new Iteration\Filtered(
-					new Iteration\Hash([1, 2, 3, 'string']),
-					new Condition\Callback(
-						function($value, $invalid): bool {
-							return is_string($value) && is_numeric($invalid);
-						}
-					)
-				))->product();
-			},
-			\TypeError::class
-		);
-	}
-
-	public function testFilteringValuesByCallbackWithNoBooleanReturnType() {
-		Assert::same(
-			['foo@bar.cz'],
-			(new Iteration\Filtered(
-				new Iteration\Hash(['foo@bar.cz', 'foo']),
-				new Condition\Callback(
-					function($value) {
-						return filter_var($value, FILTER_VALIDATE_EMAIL);
-					}
-				)
-			))->product()
-		);
-	}
-
-	public function testThrowingInvalidSelectionFlag() {
-		Assert::exception(
-			function() {
-				(new Iteration\Filtered(
-					new Iteration\Hash([1, 2, 3, 'string']),
-					new Condition\Callback(
-						function($value): bool {
-							return is_string($value);
+						function($value, $key) {
+							return is_string($value) && is_string($key);
 						}
 					),
-					5
-				))->product();
-			},
-			\UnexpectedValueException::class,
-			'Filter selection flag is not valid'
+					new Condition\Callback(
+						function($value, $key) {
+							return is_numeric($value) && is_numeric($key);
+						}
+					)
+				),
+				Iteration\Filtered::BOTH
+			))->product()
+		);
+	}
+
+	public function testFilteringBothWithByOneOfCallbacks() {
+		Assert::same(
+			[
+				'first' => '1',
+				'second' => '2',
+				'third' => '3',
+			],
+			(new Iteration\Filtered(
+				new Iteration\Hash(
+					[
+						'first' => '1',
+						'second' => '2',
+						'third' => '3',
+					]
+				),
+				new Condition\OneOf(
+					new Condition\Callback(
+						function($value, $key) {
+							return is_string($value) && is_string($key);
+						}
+					),
+					new Condition\Callback(
+						function($value, $key) {
+							return is_numeric($value) && is_numeric($key);
+						}
+					)
+				),
+				Iteration\Filtered::BOTH
+			))->product()
 		);
 	}
 }
