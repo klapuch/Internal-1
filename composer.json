@@ -1,11 +1,12 @@
 {
-  "name": "dasuos/Internal",
+  "name": "dasuos/internal",
   "description": "Library for internal implementation",
   "type": "library",
-  "homepage": "https://github.com/dasuos/Internal",
+  "homepage": "https://github.com/dasuos/internal",
   "keywords": [
     "internal",
     "array",
+    "iteration",
     "string",
     "implementation"
   ],
