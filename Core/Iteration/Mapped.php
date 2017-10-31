@@ -2,28 +2,29 @@
 declare(strict_types = 1);
 namespace Dasuos\Internal\Iteration;
 
-use Dasuos\Internal\Task;
-
 final class Mapped implements Collection {
 
-	private $collection;
 	private $task;
+	private $collections;
 
-	public function __construct(Collection $collection, Task\Task $task) {
-		$this->collection = $collection;
+	public function __construct(callable $task, Collection ...$collections) {
 		$this->task = $task;
+		$this->collections = $collections;
 	}
 
 	public function product(): array {
 		return array_map(
-			$this->map($this->task),
-			$this->collection->product()
+			$this->task,
+			...$this->products($this->collections)
 		);
 	}
 
-	private function map(Task\Task $task): callable {
-		return function($value) use ($task) {
-			return $task->result($value);
-		};
+	private function products(array $collections): array {
+		return array_map(
+			function(Collection $collection): array {
+				return $collection->product();
+			},
+			$collections
+		);
 	}
 }
