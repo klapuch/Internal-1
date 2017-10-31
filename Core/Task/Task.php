@@ -6,5 +6,5 @@ interface Task {
 	/**
 	 * @return mixed
 	 */
-	public function result($input);
+	public function result(...$input);
 }
