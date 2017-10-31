@@ -16,11 +16,7 @@ final class Mapped implements Collection {
 
 	public function product(): array {
 		return array_map(
-			count($this->collections) > 1
-				? $this->task
-				: function($value) {
-					return $this->task->result($value);
-				},
+			$this->task,
 			...array_map(
 				function(Collection $collection): array {
 					return $collection->product();
