@@ -6,5 +6,9 @@ interface Task {
 	/**
 	 * @return mixed
 	 */
+	public function __invoke(...$input);
+	/**
+	 * @return mixed
+	 */
 	public function result(...$input);
 }
