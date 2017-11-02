@@ -7,7 +7,6 @@ use Dasuos\Internal\Condition;
 final class Filtered implements Collection {
 
 	public const VALUES = 0, BOTH = 1, KEYS = 2;
-	private const SELECTIONS = [self::VALUES, self::BOTH, self::KEYS];
 
 	private $collection;
 	private $condition;
@@ -24,19 +23,10 @@ final class Filtered implements Collection {
 	}
 
 	public function product(): array {
-		$selection = $this->selection($this->flag);
 		return array_filter(
 			$this->collection->product(),
 			$this->condition,
-			$selection
+			$this->flag
 		);
-	}
-
-	private function selection(int $flag): int {
-		if (!in_array($flag, self::SELECTIONS, true))
-			throw new \UnexpectedValueException(
-				'Filter selection flag is not valid'
-			);
-		return $flag;
 	}
 }

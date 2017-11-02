@@ -127,21 +127,18 @@ final class Filtered extends \Tester\TestCase {
 		);
 	}
 
-	public function testThrowingInvalidSelectionFlag() {
-		Assert::exception(
-			function() {
-				(new Iteration\Filtered(
-					new Iteration\Hash([1, 2, 3, 'string']),
-					new Condition\Callback(
-						function($value): bool {
-							return is_string($value);
-						}
-					),
-					5
-				))->product();
-			},
-			\UnexpectedValueException::class,
-			'Filter selection flag is not valid'
+	public function testFilteringValuesWithInvalidSelectionFlag() {
+		Assert::same(
+			[3 => 'string'],
+			(new Iteration\Filtered(
+				new Iteration\Hash([1, 2, 3, 'string']),
+				new Condition\Callback(
+					function($value): bool {
+						return is_string($value);
+					}
+				),
+				12345
+			))->product()
 		);
 	}
 }
