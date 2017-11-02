@@ -12,6 +12,10 @@ final class Combined implements Condition {
 		$this->callbacks = $callbacks;
 	}
 
+	public function __invoke(...$input): bool {
+		return $this->statement(...$input);
+	}
+
 	/**
 	 * @internal
 	 * @param mixed ...$input

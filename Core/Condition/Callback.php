@@ -10,6 +10,10 @@ final class Callback implements Condition {
 		$this->callback = $callback;
 	}
 
+	public function __invoke(...$input): bool {
+		return $this->statement(...$input);
+	}
+
 	public function statement(...$input): bool {
 		return (bool) call_user_func_array($this->callback, $input);
 	}

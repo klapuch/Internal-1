@@ -10,6 +10,10 @@ final class OneOf implements Condition {
 		$this->callbacks = $callbacks;
 	}
 
+	public function __invoke(...$input): bool {
+		return $this->statement(...$input);
+	}
+
 	public function statement(...$input): bool {
 		return (new Combined(false, ...$this->callbacks))
 			->statement(...$input);

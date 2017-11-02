@@ -10,6 +10,10 @@ final class All implements Condition {
 		$this->callbacks = $callbacks;
 	}
 
+	public function __invoke(...$input): bool {
+		return $this->statement(...$input);
+	}
+
 	public function statement(...$input): bool {
 		return (new Combined(true, ...$this->callbacks))
 			->statement(...$input);
