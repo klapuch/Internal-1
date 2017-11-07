@@ -66,6 +66,29 @@ final class Iterations extends \Tester\TestCase {
 		);
 	}
 
+	public function testFilteringWithAllConditionsAndMappingValuesByCombinedTask() {
+		Assert::same(
+			[0 => '2', 1 => '4', 2 => '6'],
+			(new Iteration\Mapped(
+				new Task\Combined(
+					new Task\Callback(
+						function($value) {
+							return $value * 2;
+						}
+					),
+					new Task\Callback('strval')
+				),
+				new Iteration\Filtered(
+					new Iteration\Hash(['1', '2', '3', 'foo', 'bar', true]),
+					new Condition\All(
+						new Condition\Callback('is_string'),
+						new Condition\Callback('is_numeric')
+					)
+				)
+			))->product()
+		);
+	}
+
 }
 
 (new Iterations())->run();
