@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace Dasuos\Internal\Iteration;
 
-use Dasuos\Internal\Condition\Condition;
+use Dasuos\Internal\Condition\Predicate;
 
 final class Filtered implements Collection {
 
@@ -10,23 +10,23 @@ final class Filtered implements Collection {
 
 	private $collection;
 	private $condition;
-	private $selection;
+	private $flag;
 
 	public function __construct(
 		Collection $collection,
-		Condition $condition,
-		int $selection = self::VALUES
+		Predicate $condition,
+		int $flag = self::VALUES
 	) {
 		$this->collection = $collection;
 		$this->condition = $condition;
-		$this->selection = $selection;
+		$this->flag = $flag;
 	}
 
 	public function product(): array {
 		return array_filter(
 			$this->collection->product(),
 			$this->condition,
-			$this->selection
+			$this->flag
 		);
 	}
 }

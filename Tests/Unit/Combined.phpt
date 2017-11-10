@@ -6,7 +6,7 @@ declare(strict_types = 1);
  */
 namespace Dasuos\Internal\Unit;
 
-use Dasuos\Internal\Task;
+use Dasuos\Internal\Modification;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
@@ -16,8 +16,8 @@ final class Combined extends \Tester\TestCase {
 	public function testReturningResultWithOneSingleArgumentTask() {
 		Assert::same(
 			'2',
-			(new Task\Combined(
-				new Task\Callback('strval')
+			(new Modification\Combined(
+				new Modification\Callback('strval')
 			))->result(2)
 		);
 	}
@@ -25,13 +25,13 @@ final class Combined extends \Tester\TestCase {
 	public function testReturningResultWithTwoSingleArgumentTasks() {
 		Assert::same(
 			'4',
-			(new Task\Combined(
-				new Task\Callback(
+			(new Modification\Combined(
+				new Modification\Callback(
 					function($value) {
 						return $value * 2;
 					}
 				),
-				new Task\Callback('strval')
+				new Modification\Callback('strval')
 			))->result(2)
 		);
 	}
@@ -39,18 +39,18 @@ final class Combined extends \Tester\TestCase {
 	public function testReturningResultWithManySingleArgumentTasks() {
 		Assert::same(
 			'16',
-			(new Task\Combined(
-				new Task\Callback(
+			(new Modification\Combined(
+				new Modification\Callback(
 					function($value) {
 						return $value * 2;
 					}
 				),
-				new Task\Callback(
+				new Modification\Callback(
 					function($value) {
 						return $value * 4;
 					}
 				),
-				new Task\Callback('strval')
+				new Modification\Callback('strval')
 			))->result(2)
 		);
 	}
@@ -58,9 +58,9 @@ final class Combined extends \Tester\TestCase {
 	public function testReturningResultWithManyMultiArgumentTasks() {
 		Assert::same(
 			['1', '2', '3', '4', '5'],
-			(new Task\Combined(
-				new Task\Callback('range'),
-				new Task\Callback(
+			(new Modification\Combined(
+				new Modification\Callback('range'),
+				new Modification\Callback(
 					function($range) {
 						return array_map('strval', $range);
 					}

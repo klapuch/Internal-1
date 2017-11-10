@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace Dasuos\Internal\Condition;
 
-final class Callback implements Condition {
+final class Callback implements Predicate {
 
 	private $callback;
 

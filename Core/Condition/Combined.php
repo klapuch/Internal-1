@@ -2,12 +2,12 @@
 declare(strict_types = 1);
 namespace Dasuos\Internal\Condition;
 
-final class Combined implements Condition {
+final class Combined implements Predicate {
 
 	private $initial;
 	private $callbacks;
 
-	public function __construct(bool $initial, Condition ...$callbacks) {
+	public function __construct(bool $initial, Predicate ...$callbacks) {
 		$this->initial = $initial;
 		$this->callbacks = $callbacks;
 	}
@@ -33,19 +33,19 @@ final class Combined implements Condition {
 
 	private function conjunction(array $input): callable {
 		return function(
-			bool $statement,
-			Condition $condition
+			bool $evaluation,
+			Predicate $predicate
 		) use ($input): bool {
-			return $statement && $condition->statement(...$input);
+			return $evaluation && $predicate->statement(...$input);
 		};
 	}
 
 	private function disjunction(array $input): callable {
 		return function(
-			bool $statement,
-			Condition $condition
+			bool $evaluation,
+			Predicate $predicate
 		) use ($input): bool {
-			return $statement || $condition->statement(...$input);
+			return $evaluation || $predicate->statement(...$input);
 		};
 	}
 }

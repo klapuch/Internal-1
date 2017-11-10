@@ -8,7 +8,7 @@ namespace Dasuos\Internal\Integration;
 
 use Dasuos\Internal\Condition;
 use Dasuos\Internal\Iteration;
-use Dasuos\Internal\Task;
+use Dasuos\Internal\Modification;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
@@ -19,7 +19,7 @@ final class Iterations extends \Tester\TestCase {
 		Assert::same(
 			[3 => 'FOO', 4 => 'BAR'],
 			(new Iteration\Mapped(
-				new Task\Callback('strtoupper'),
+				new Modification\Callback('strtoupper'),
 				new Iteration\Filtered(
 					new Iteration\Hash([1, 2, 3, 'foo', 'bar']),
 					new Condition\Callback('is_string')
@@ -38,7 +38,7 @@ final class Iterations extends \Tester\TestCase {
 				4 => 'bar',
 			],
 			(new Iteration\Mapped(
-				new Task\Callback('strval'),
+				new Modification\Callback('strval'),
 				new Iteration\Filtered(
 					new Iteration\Hash([1, 2, 3, 'foo', 'bar', true]),
 					new Condition\OneOf(
@@ -54,7 +54,7 @@ final class Iterations extends \Tester\TestCase {
 		Assert::same(
 			[0 => '1', 1 => '2', 2 => '3'],
 			(new Iteration\Mapped(
-				new Task\Callback('strval'),
+				new Modification\Callback('strval'),
 				new Iteration\Filtered(
 					new Iteration\Hash(['1', '2', '3', 'foo', 'bar', true]),
 					new Condition\All(
@@ -70,13 +70,13 @@ final class Iterations extends \Tester\TestCase {
 		Assert::same(
 			[0 => '2', 1 => '4', 2 => '6'],
 			(new Iteration\Mapped(
-				new Task\Combined(
-					new Task\Callback(
+				new Modification\Combined(
+					new Modification\Callback(
 						function($value) {
 							return $value * 2;
 						}
 					),
-					new Task\Callback('strval')
+					new Modification\Callback('strval')
 				),
 				new Iteration\Filtered(
 					new Iteration\Hash(['1', '2', '3', 'foo', 'bar', true]),

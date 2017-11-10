@@ -2,11 +2,11 @@
 declare(strict_types = 1);
 namespace Dasuos\Internal\Condition;
 
-final class All implements Condition {
+final class All implements Predicate {
 
 	private $callbacks;
 
-	public function __construct(Condition ...$callbacks) {
+	public function __construct(Predicate ...$callbacks) {
 		$this->callbacks = $callbacks;
 	}
 

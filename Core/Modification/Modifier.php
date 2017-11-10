@@ -1,8 +1,8 @@
 <?php
 declare(strict_types = 1);
-namespace Dasuos\Internal\Task;
+namespace Dasuos\Internal\Modification;
 
-interface Task {
+interface Modifier {
 	/**
 	 * @return mixed
 	 */

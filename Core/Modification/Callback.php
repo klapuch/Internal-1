@@ -1,8 +1,8 @@
 <?php
 declare(strict_types = 1);
-namespace Dasuos\Internal\Task;
+namespace Dasuos\Internal\Modification;
 
-final class Callback implements Task {
+final class Callback implements Modifier {
 
 	private $callback;
 

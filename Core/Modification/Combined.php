@@ -1,12 +1,12 @@
 <?php
 declare(strict_types = 1);
-namespace Dasuos\Internal\Task;
+namespace Dasuos\Internal\Modification;
 
-final class Combined implements Task {
+final class Combined implements Modifier {
 
 	private $tasks;
 
-	public function __construct(Task ...$tasks) {
+	public function __construct(Modifier ...$tasks) {
 		$this->tasks = $tasks;
 	}
 
@@ -25,7 +25,7 @@ final class Combined implements Task {
 		$task = array_shift($tasks)->result(...$input);
 		return array_reduce(
 			$tasks,
-			function($return, Task $task) {
+			function($return, Modifier $task) {
 				return $task->result($return);
 			},
 			$task

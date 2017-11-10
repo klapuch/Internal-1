@@ -7,7 +7,7 @@ declare(strict_types = 1);
 namespace Dasuos\Internal\Integration;
 
 use Dasuos\Internal\Iteration;
-use Dasuos\Internal\Task;
+use Dasuos\Internal\Modification;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
@@ -18,13 +18,13 @@ final class Mapped extends \Tester\TestCase {
 		Assert::same(
 			['2', '4', '6'],
 			(new Iteration\Mapped(
-				new Task\Combined(
-					new Task\Callback(
+				new Modification\Combined(
+					new Modification\Callback(
 						function(int $value): int {
 							return $value * 2;
 						}
 					),
-					new Task\Callback('strval')
+					new Modification\Callback('strval')
 				),
 				new Iteration\Hash([1, 2, 3])
 			))->product()
@@ -35,18 +35,18 @@ final class Mapped extends \Tester\TestCase {
 		Assert::same(
 			['4', '8', '12'],
 			(new Iteration\Mapped(
-				new Task\Combined(
-					new Task\Callback(
+				new Modification\Combined(
+					new Modification\Callback(
 						function($value): int {
 							return $value * 2;
 						}
 					),
-					new Task\Callback(
+					new Modification\Callback(
 						function(int $value): int {
 							return $value * 2;
 						}
 					),
-					new Task\Callback('strval')
+					new Modification\Callback('strval')
 				),
 				new Iteration\Hash([1, 2, 3])
 			))->product()
@@ -57,8 +57,8 @@ final class Mapped extends \Tester\TestCase {
 		Assert::same(
 			[[1, 2], [2, 3], [3, 4, 5]],
 			(new Iteration\Mapped(
-				new Task\Combined(
-					new Task\Callback('range')
+				new Modification\Combined(
+					new Modification\Callback('range')
 				),
 				new Iteration\Hash([1, 2, 3]),
 				new Iteration\Hash([2, 3, 5])
