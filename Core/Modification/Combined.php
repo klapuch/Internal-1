@@ -4,10 +4,10 @@ namespace Dasuos\Internal\Modification;
 
 final class Combined implements Modifier {
 
-	private $tasks;
+	private $modifiers;
 
-	public function __construct(Modifier ...$tasks) {
-		$this->tasks = $tasks;
+	public function __construct(Modifier ...$modifiers) {
+		$this->modifiers = $modifiers;
 	}
 
 	/**
@@ -21,14 +21,14 @@ final class Combined implements Modifier {
 	 * @return mixed
 	 */
 	public function result(...$input) {
-		$tasks = $this->tasks;
-		$task = array_shift($tasks)->result(...$input);
+		$modifiers = $this->modifiers;
+		$modifier = array_shift($modifiers)->result(...$input);
 		return array_reduce(
-			$tasks,
+			$modifiers,
 			function($return, Modifier $task) {
 				return $task->result($return);
 			},
-			$task
+			$modifier
 		);
 	}
 }
