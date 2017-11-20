@@ -6,17 +6,20 @@ use Dasuos\Internal\Modification\Modifier;
 
 final class Mapped implements Collection {
 
-	private $task;
+	private $modifier;
 	private $collections;
 
-	public function __construct(Modifier $task, Collection ...$collections) {
-		$this->task = $task;
+	public function __construct(
+		Modifier $modifier,
+		Collection ...$collections
+	) {
+		$this->modifier = $modifier;
 		$this->collections = $collections;
 	}
 
 	public function product(): array {
 		return array_map(
-			$this->task,
+			$this->modifier,
 			...(new Hashes(...$this->collections))->product()
 		);
 	}

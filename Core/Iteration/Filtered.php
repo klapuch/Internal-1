@@ -9,23 +9,23 @@ final class Filtered implements Collection {
 	public const VALUES = 0, BOTH = 1, KEYS = 2;
 
 	private $collection;
-	private $condition;
+	private $predicate;
 	private $flag;
 
 	public function __construct(
 		Collection $collection,
-		Predicate $condition,
+		Predicate $predicate,
 		int $flag = self::VALUES
 	) {
 		$this->collection = $collection;
-		$this->condition = $condition;
+		$this->predicate = $predicate;
 		$this->flag = $flag;
 	}
 
 	public function product(): array {
 		return array_filter(
 			$this->collection->product(),
-			$this->condition,
+			$this->predicate,
 			$this->flag
 		);
 	}
